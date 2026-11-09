@@ -22,15 +22,18 @@
   --lime:     #cbe646;   /* RESERVED for Hiving Food vertical */
 
   --ink-dim:  rgba(21,20,15,0.62);
-  --ink-faint:rgba(21,20,15,0.36);
+  --ink-faint:rgba(21,20,15,0.61);   /* AA : 4,5:1 mini sur paper, paper-2, paper-3 (était 0.36) */
   --line:     rgba(21,20,15,0.16);
   --line-soft:rgba(21,20,15,0.09);
 
   /* on dark/green */
   --on-d:      #f1ede1;
   --on-d-dim:  rgba(241,237,225,0.62);
-  --on-d-faint:rgba(241,237,225,0.34);
+  --on-d-faint:rgba(241,237,225,0.52); /* AA : 4,5:1 mini sur ink, forest-d, forest-dd (était 0.34) */
   --line-d:    rgba(241,237,225,0.16);
+
+  /* noms d'univers au repos (grands textes) : AA 3:1 mini sur paper-2 (était .42) */
+  --uni-idle-opacity: .47;
 
   --sans:  'Archivo', system-ui, sans-serif;
   --body:  'Hanken Grotesk', system-ui, sans-serif;
@@ -222,7 +225,7 @@ section{ position:relative; }
 .uni-list{ border-top:1px solid var(--line); }
 .uni{ display:grid; grid-template-columns:60px 1fr auto; align-items:center; gap:24px; padding:clamp(22px,3.2vh,42px) 0; border-bottom:1px solid var(--line); position:relative; cursor:pointer; transition:padding-left .45s var(--ease); }
 .uni__no{ font-family:var(--mono); font-size:12px; color:var(--ink-faint); letter-spacing:.1em; }
-.uni__name{ font-family:var(--sans); font-weight:900; font-size:clamp(34px,6.2vw,108px); line-height:.9; letter-spacing:-0.035em; color:var(--ink); opacity:.42; transition:opacity .4s, color .4s; }
+.uni__name{ font-family:var(--sans); font-weight:900; font-size:clamp(34px,6.2vw,108px); line-height:.9; letter-spacing:-0.035em; color:var(--ink); opacity:var(--uni-idle-opacity); transition:opacity .4s, color .4s; }
 .uni__name .ital{ font-family:var(--serif); font-weight:500; }
 .uni__meta{ text-align:right; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); transition:color .4s; line-height:1.7; }
 .uni:hover{ padding-left:26px; } .uni:hover .uni__name{ opacity:1; } .uni:hover .uni__meta{ color:var(--forest); }
@@ -250,7 +253,7 @@ section{ position:relative; }
 
 /* ============================================================ ECOSYSTEM (WOW) — theme-driven */
 .eco{
-  --eco-bg:#103024; --eco-fg:#f1ede1; --eco-fg-dim:rgba(241,237,225,.62); --eco-fg-faint:rgba(241,237,225,.34);
+  --eco-bg:#103024; --eco-fg:#f1ede1; --eco-fg-dim:rgba(241,237,225,.62); --eco-fg-faint:rgba(241,237,225,.54); /* AA 4,5:1 sur #103024 (était .34) */
   --eco-line:#2c7d56; --eco-line-op:.20; --eco-accent:var(--lime); --eco-on-accent:#15140f;
   --eco-node-bg:#0d2a1f; --eco-border:rgba(241,237,225,.16);
   --eco-panel-bg:rgba(13,42,31,.80); --eco-grad:rgba(10,32,23,.85);
@@ -546,6 +549,18 @@ body.no-dots .wave-bg{ display:none; }
   will-change:width,height; }
 .se__video{ width:100%; height:100%; object-fit:cover; display:block; background:#0a2017; }
 .se__media-scrim{ position:absolute; inset:0; background:rgba(10,32,23,.30); opacity:calc(.5 - var(--se-p)*.42); transition:opacity .2s linear; pointer-events:none; }
+/* bouton pause / lecture du film (WCAG 2.2.2) : discret, dans le coin du cadre */
+.se__toggle{ position:absolute; right:14px; bottom:14px; z-index:2; width:40px; height:40px; border-radius:50%;
+  display:grid; place-items:center; color:var(--on-d); background:color-mix(in srgb, var(--ink) 70%, transparent);
+  border:1px solid var(--line-d); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  transition:transform .25s var(--ease); }
+.se__toggle[hidden]{ display:none; }
+.se__toggle:hover, .se__toggle:focus-visible{ transform:scale(1.06); }
+.se__toggle:focus-visible{ outline:2px solid var(--on-d); outline-offset:3px; }
+.se__toggle svg{ display:block; }
+.se__toggle .se__toggle-play{ display:none; }
+.se__toggle.is-paused .se__toggle-play{ display:block; }
+.se__toggle.is-paused .se__toggle-pause{ display:none; }
 
 /* parting title sitting over the media */
 .se__heading{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; text-align:center; gap:.02em;
