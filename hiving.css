@@ -437,11 +437,11 @@ body[data-eco="creme"]    .eco{ --eco-bg:#e7e0cf; --eco-fg:#15140f; --eco-fg-dim
 .footer__brand .socials{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; }
 .footer__brand .socials a{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--line-d); padding:8px 13px; border-radius:30px; color:var(--on-d-dim); transition:.3s; }
 .footer__brand .socials a:hover{ border-color:var(--lime); color:var(--lime); }
-.footer__col h4{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-d-faint); margin-bottom:18px; }
-.footer__col a, .footer__news h4{ display:block; }
+.footer__col h2, .footer__col h4{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-d-faint); margin-bottom:18px; }
+.footer__col a, .footer__news h2, .footer__news h4{ display:block; }
 .footer__col a{ color:var(--on-d-dim); font-size:15px; padding:6px 0; transition:color .3s, padding-left .3s; }
 .footer__col a:hover{ color:var(--paper); padding-left:5px; }
-.footer__news h4{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-d-faint); margin-bottom:18px; }
+.footer__news h2, .footer__news h4{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-d-faint); margin-bottom:18px; }
 .footer__news p{ color:var(--on-d-dim); font-size:14px; margin-bottom:16px; }
 .footer__news .field{ display:flex; border:1px solid var(--line-d); border-radius:40px; overflow:hidden; max-width:340px; }
 .footer__news input{ flex:1; background:none; border:none; color:var(--paper); font-family:var(--body); padding:13px 18px; outline:none; font-size:14px; }
@@ -957,3 +957,15 @@ body.tp-open{ overflow:hidden; }
    ============================================================ */
 /* photos avec width/height : la hauteur reste pilotée par le ratio CSS */
 .tp-photo img{ height:auto; }
+
+/* ============================================================
+   ACCESSIBILITÉ (aucun changement visuel hors focus clavier)
+   ============================================================ */
+/* lien d'évitement : invisible tant qu'on ne navigue pas au clavier */
+.skip-link{ position:fixed; left:16px; top:-80px; z-index:10000; background:var(--ink); color:var(--paper); font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; padding:12px 18px; border-radius:40px; transition:top .2s; }
+.skip-link:focus{ top:16px; }
+#contenu:focus{ outline:none; }
+/* focus visible au clavier uniquement (pas au clic) */
+:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
+.footer__news input:focus-visible{ outline:2px solid currentColor; outline-offset:2px; }
+.node:focus-visible{ outline:2px solid var(--forest); outline-offset:4px; }

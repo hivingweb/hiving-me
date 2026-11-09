@@ -461,8 +461,10 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       }
       return bits.length ? 'Sa communauté : ' + bits.join(' · ') + '.' : '';
     }
+    let tpLastFocus = null;
     function openTalent(t, evt){
       const root = ensureTP();
+      tpLastFocus = document.activeElement;
       const card = root.querySelector('.tp__card');
       const m = METRICS && METRICS[t.id], d = DEMO && DEMO[t.id];
       // --- hero ---
@@ -570,6 +572,9 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
         card.style.clipPath = 'circle(' + R + 'px at ' + cx + 'px ' + cy + 'px)';
       });
       setTimeout(() => { if(root.classList.contains('open')) card.style.clipPath = 'none'; }, 800);
+      card.setAttribute('aria-label', t.nm);
+      const closeBtn = root.querySelector('.tp__close');
+      if(closeBtn) closeBtn.focus({ preventScroll:true });
       if(total) tpCountUp(root.querySelector('.tp__reach-n'), total);
       else root.querySelector('.tp__reach-n').textContent = t.reach;
     }
@@ -580,6 +585,8 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       tpEl.classList.remove('open');
       document.body.classList.remove('tp-open');
       setTimeout(() => tpEl.classList.remove('on'), 420);
+      if(tpLastFocus && tpLastFocus.focus) tpLastFocus.focus({ preventScroll:true });
+      tpLastFocus = null;
     }
 
     // hover behaviour
@@ -601,6 +608,13 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       n.el.addEventListener('mouseenter', () => { showPanel(n.data); applyHover(n.data.id); n.el.classList.add('hot'); });
       n.el.addEventListener('mouseleave', () => { applyHover(null); n.el.classList.remove('hot'); });
       n.el.addEventListener('click', (e) => { e.stopPropagation(); openTalent(n.data, e); });
+      // accessibilité clavier : Tab pour parcourir, Entrée / Espace pour ouvrir
+      n.el.tabIndex = 0;
+      n.el.setAttribute('role', 'button');
+      n.el.setAttribute('aria-haspopup', 'dialog');
+      n.el.addEventListener('focus', () => { showPanel(n.data); applyHover(n.data.id); n.el.classList.add('hot'); });
+      n.el.addEventListener('blur', () => { applyHover(null); n.el.classList.remove('hot'); });
+      n.el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openTalent(n.data, null); } });
     });
     document.addEventListener('keydown', (e) => { if(e.key==='Escape') closeTalent(); });
 
