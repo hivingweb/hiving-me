@@ -54,6 +54,12 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
     if(peek && !peekRAF){ peekRAF = requestAnimationFrame(() => { peek.style.left=(mx+26)+'px'; peek.style.top=(my-70)+'px'; peekRAF=null; }); }
   });
 
+  /* ---------- photos des studios : fichiers WebP (media/slots/) au lieu du JSON de plusieurs Mo ---------- */
+  ['studio-1', 'studio-2'].forEach(id => {
+    const s = document.getElementById(id);
+    if(s && s.tagName === 'IMAGE-SLOT' && !s.hasAttribute('src')) s.setAttribute('src', '/media/slots/' + id + '.webp');
+  });
+
   /* ============================================================
      TALENT ECOSYSTEM — the living network (wow moment)
      ============================================================ */
@@ -104,7 +110,7 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       node.innerHTML =
         '<div class="node__float" style="width:100%;height:100%">'+
           '<div class="node__inner" style="width:100%;height:100%">'+
-            '<image-slot id="'+t.id+'" placeholder="'+t.nm+'" shape="rect" fit="cover" style="width:100%;height:100%"></image-slot>'+
+            '<image-slot id="'+t.id+'" src="/media/slots/'+t.id+'.webp" placeholder="'+t.nm+'" shape="rect" fit="cover" style="width:100%;height:100%"></image-slot>'+
             '<div class="node__grad"></div>'+
             '<div class="node__tag"><span class="nm">'+t.nm+'</span><span class="uv">'+t.uv+'</span><span class="node__reach">'+t.reach+'</span></div>'+
           '</div>'+
@@ -290,18 +296,16 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
     const TP_HD = { 'eco-1':1, 'eco-2':1, 'eco-3':1, 'eco-4':1, 'eco-5':1, 'eco-6':1, 'eco-7':1, 'eco-8':1, 'eco-9':1, 'eco-10':1, 'eco-11':1, 'eco-12':1, 'eco-13':1, 'eco-14':1, 'eco-15':1, 'eco-16':1, 'eco-17':1, 'eco-20':1, 'eco-33':1 };
     // avatars officiels 320px (mieux que les vignettes) → médaillon, pas plein cadre
     const TP_MED = { 'eco-18':1, 'eco-19':1, 'eco-22':1, 'eco-23':1, 'eco-24':1, 'eco-26':1, 'eco-27':1, 'eco-30':1, 'eco-31':1, 'eco-32':1 };
-    let SLOTPICS = null;
+    // photos en WebP (originaux JPEG conservés à côté)
     function talentPhoto(t){
-      if(TP_HD[t.id])  return { src: 'media/talents/' + t.id + '.jpg', hd: true };
-      if(TP_MED[t.id]) return { src: 'media/talents/' + t.id + '.jpg', hd: false };
+      if(TP_HD[t.id])  return { src: '/media/talents/' + t.id + '.webp', hd: true };
+      if(TP_MED[t.id]) return { src: '/media/talents/' + t.id + '.webp', hd: false };
       const n = nodes.find(x => x.data.id === t.id);
       const slot = n && n.el.querySelector('image-slot');
       const img = slot && slot.shadowRoot && slot.shadowRoot.querySelector('img[part=image]');
-      if(img && img.src && img.src.startsWith('data:')) return { src: img.src, hd: false };
-      const u = SLOTPICS && SLOTPICS[t.id] && SLOTPICS[t.id].u;
-      return u ? { src: u, hd: false } : null;
+      if(img && img.src) return { src: img.src, hd: false };
+      return null;
     }
-    fetch('image-slots.state.json').then(r => r.ok ? r.json() : null).then(j => { SLOTPICS = j; }).catch(() => {});
 
     // PRNG déterministe (la courbe d'un talent ne change pas à chaque ouverture)
     function hseed(str){ let h = 2166136261; for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -457,8 +461,10 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       }
       return bits.length ? 'Sa communauté : ' + bits.join(' · ') + '.' : '';
     }
+    let tpLastFocus = null;
     function openTalent(t, evt){
       const root = ensureTP();
+      tpLastFocus = document.activeElement;
       const card = root.querySelector('.tp__card');
       const m = METRICS && METRICS[t.id], d = DEMO && DEMO[t.id];
       // --- hero ---
@@ -566,6 +572,9 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
         card.style.clipPath = 'circle(' + R + 'px at ' + cx + 'px ' + cy + 'px)';
       });
       setTimeout(() => { if(root.classList.contains('open')) card.style.clipPath = 'none'; }, 800);
+      card.setAttribute('aria-label', t.nm);
+      const closeBtn = root.querySelector('.tp__close');
+      if(closeBtn) closeBtn.focus({ preventScroll:true });
       if(total) tpCountUp(root.querySelector('.tp__reach-n'), total);
       else root.querySelector('.tp__reach-n').textContent = t.reach;
     }
@@ -576,6 +585,8 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       tpEl.classList.remove('open');
       document.body.classList.remove('tp-open');
       setTimeout(() => tpEl.classList.remove('on'), 420);
+      if(tpLastFocus && tpLastFocus.focus) tpLastFocus.focus({ preventScroll:true });
+      tpLastFocus = null;
     }
 
     // hover behaviour
@@ -597,6 +608,13 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
       n.el.addEventListener('mouseenter', () => { showPanel(n.data); applyHover(n.data.id); n.el.classList.add('hot'); });
       n.el.addEventListener('mouseleave', () => { applyHover(null); n.el.classList.remove('hot'); });
       n.el.addEventListener('click', (e) => { e.stopPropagation(); openTalent(n.data, e); });
+      // accessibilité clavier : Tab pour parcourir, Entrée / Espace pour ouvrir
+      n.el.tabIndex = 0;
+      n.el.setAttribute('role', 'button');
+      n.el.setAttribute('aria-haspopup', 'dialog');
+      n.el.addEventListener('focus', () => { showPanel(n.data); applyHover(n.data.id); n.el.classList.add('hot'); });
+      n.el.addEventListener('blur', () => { applyHover(null); n.el.classList.remove('hot'); });
+      n.el.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openTalent(n.data, null); } });
     });
     document.addEventListener('keydown', (e) => { if(e.key==='Escape') closeTalent(); });
 
@@ -1152,4 +1170,61 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
   burger.addEventListener('click', () => setOpen(!document.body.classList.contains('nav-open')));
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+})();
+
+/* ============================================================
+   FORMULAIRES (contact, newsletter) → fonctions Vercel /api/*
+   Envoi en JSON, message lu par les lecteurs d'écran (aria-live),
+   bouton bloqué pendant l'envoi. Aucun traceur.
+   ============================================================ */
+(function(){
+  const CONTACT = 'contact@hiving.me';
+  const INDISPO = 'Envoi momentanément indisponible, écrivez-nous à <a href="mailto:' + CONTACT + '">' + CONTACT + '</a>.';
+  const MERCI = {
+    contact: 'Merci, votre message est bien parti. Nous revenons vers vous sous 24h.',
+    newsletter: 'Merci, votre inscription est enregistrée.',
+  };
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  document.querySelectorAll('form[data-hv-form]').forEach(form => {
+    const type = form.getAttribute('data-hv-form');
+    const statut = form.querySelector('.hv-statut') ||
+      (form.nextElementSibling && form.nextElementSibling.classList.contains('hv-statut') ? form.nextElementSibling : null);
+    const bouton = form.querySelector('[type="submit"]');
+    const dire = (html, estHtml) => { if (!statut) return; if (estHtml) statut.innerHTML = html; else statut.textContent = html; };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (bouton.disabled) return;
+      const data = {};
+      new FormData(form).forEach((v, k) => { data[k] = String(v).trim(); });
+      form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+
+      // vérification avant envoi (refaite côté serveur)
+      const manquant = Array.from(form.querySelectorAll('[required]')).find(el => !el.value.trim());
+      if (manquant) { manquant.setAttribute('aria-invalid', 'true'); manquant.focus(); dire('Merci de remplir les champs marqués d’un astérisque.'); return; }
+      if (!EMAIL_RE.test(data.email || '')) {
+        const champ = form.querySelector('[name="email"]');
+        champ.setAttribute('aria-invalid', 'true'); champ.focus(); dire('Adresse e-mail invalide.'); return;
+      }
+      if (type === 'newsletter') data.source = data.source || 'footer';
+
+      const texteBouton = bouton.textContent;
+      bouton.disabled = true; bouton.setAttribute('aria-disabled', 'true'); bouton.textContent = 'Envoi…';
+      dire('Envoi en cours…');
+
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+        .then(r => r.json().catch(() => ({})).then(d => ({ ok: r.ok, status: r.status, data: d })), () => ({ ok: false, status: 0, data: {} }))
+        .then(res => {
+          bouton.disabled = false; bouton.removeAttribute('aria-disabled'); bouton.textContent = texteBouton;
+          if (res.ok) { form.reset(); dire(MERCI[type] || 'Merci !'); return; }
+          if (res.status === 400 && res.data.error) dire(res.data.error);
+          else dire(INDISPO, true);
+        });
+    });
+  });
 })();

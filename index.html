@@ -10,6 +10,7 @@
 <meta name="author" content="Hiving">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0E3B3C">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="https://hiving.me/">
 
 <!-- Open Graph -->
@@ -31,28 +32,40 @@
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
-<link rel="apple-touch-icon" href="favicon-96.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<link rel="stylesheet" href="hiving.css?v=20261109">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=Bodoni+Moda:ital,opsz,wght@1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Caveat:wght@500;600;700&amp;display=swap">
+<link rel="stylesheet" href="hiving.css?v=20261109lot">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://hiving.me/#website",
   "name": "Hiving",
   "alternateName": ["hiving.me", "Hiving · House of Influence"],
-  "url": "https://hiving.me/"
+  "url": "https://hiving.me/",
+  "inLanguage": "fr-FR",
+  "publisher": { "@id": "https://hiving.me/#organization" }
 }
 </script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://hiving.me/#organization",
   "name": "Hiving",
   "alternateName": "Hiving · House of Influence",
   "url": "https://hiving.me/",
-  "logo": "https://hiving.me/favicon.svg",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://hiving.me/logo-hiving.png",
+    "width": 1535,
+    "height": 496
+  },
+  "image": "https://hiving.me/media/hiving-rooftop.jpg",
   "description": "Agence d'influence et maison de créateurs à Paris (Clichy) : 28 talents en exclusivité, 145m² de studios, production intégrée. Stratégie, casting, production et diffusion de campagnes.",
   "slogan": "House of Influence",
   "knowsAbout": ["Marketing d'influence", "Production de contenu", "Brand content", "UGC", "Gestion de talents"],
@@ -70,6 +83,7 @@
 </script>
 </head>
 <body class="temp-equilibre motion-vivant">
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 <div class="grain"></div>
 
 <!-- logo symbol (reused) -->
@@ -102,18 +116,19 @@
 </div>
 
 <!-- ============================== HERO (scroll-expand) ============================== -->
+<main id="contenu" tabindex="-1">
 <header class="hero hero--expand" id="top">
   <div class="se" data-se>
     <!-- fading background photo -->
     <div class="se__bg" data-se-bg>
-      <img src="media/hiving-rooftop.jpg" alt="Hiving Night, rooftop au coucher de soleil" decoding="async">
+      <picture><source type="image/avif" srcset="media/hiving-rooftop.avif"><source type="image/webp" srcset="media/hiving-rooftop.webp"><img src="media/hiving-rooftop.jpg" alt="Hiving Night, rooftop au coucher de soleil" width="1080" height="720" decoding="async"></picture>
       <div class="se__bg-scrim"></div>
     </div>
 
     <!-- stage: expanding video + parting title -->
     <div class="se__stage">
       <div class="se__media" data-se-media>
-        <video class="se__video" src="media/hiving-cannes-2026.mp4?v=2" poster="media/hiving-night.jpg"
+        <video class="se__video" src="media/hiving-cannes-2026.mp4?v=2" poster="media/hiving-night.webp"
                autoplay muted loop playsinline preload="auto"
                disablepictureinpicture disableremoteplayback></video>
         <div class="se__media-scrim"></div>
@@ -435,10 +450,36 @@
     <div class="cta__actions">
       <a href="mailto:contact@hiving.me" class="btn btn--dark">contact@hiving.me ↗</a>
     </div>
+    <form class="cta__form" data-hv-form="contact" action="/api/contact" method="post" novalidate aria-labelledby="cta-form-titre">
+      <p class="cta__form-titre" id="cta-form-titre">Ou laissez-nous un message</p>
+      <div class="cta__form-grid">
+        <div class="cta__form-champ">
+          <label for="cf-name">Nom *</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120">
+        </div>
+        <div class="cta__form-champ">
+          <label for="cf-email">E-mail *</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="254">
+        </div>
+        <div class="cta__form-champ cta__form-plein">
+          <label for="cf-company">Société</label>
+          <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160">
+        </div>
+        <div class="cta__form-champ cta__form-plein">
+          <label for="cf-message">Message *</label>
+          <textarea id="cf-message" name="message" rows="4" required maxlength="5000"></textarea>
+        </div>
+      </div>
+      <div class="hv-piege" aria-hidden="true"><label for="cf-website">Ne pas remplir</label><input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <button type="submit" class="btn btn--dark">Envoyer le message →</button>
+      <p class="hv-statut" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
 <!-- ============================== FOOTER ============================== -->
+</main>
+
 <footer class="footer">
   <div class="wrap">
     <div class="footer__grid">
@@ -449,20 +490,22 @@
         <div class="socials"><a href="https://www.instagram.com/hivingfr/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.tiktok.com/@hivingfr" target="_blank" rel="noopener">TikTok ↗</a><a href="https://fr.linkedin.com/company/hivingfr" target="_blank" rel="noopener">LinkedIn ↗</a></div>
       </div>
       <div class="footer__col">
-        <h4>La maison</h4>
+        <h2>La maison</h2>
         <a href="#univers">L'agence</a><a href="talents/">Talents</a><a href="#work">Cases</a><a href="#studios">Studios</a>
       </div>
       <div class="footer__col">
-        <h4>Ressources</h4>
+        <h2>Ressources</h2>
         <a href="agence-influence-paris/">Agence d'influence Paris</a><a href="https://hivingfood.fr" target="_blank" rel="noopener">Hiving Food ↗</a><a href="https://hivingstudio.fr" target="_blank" rel="noopener">Réserver un plateau ↗</a><a href="#contact">Contact</a>
       </div>
       <div class="footer__news">
-        <h4>La newsletter</h4>
+        <h2>La newsletter</h2>
         <p>Une fois par mois : les coulisses de la maison, les nouveaux talents et les insights culture.</p>
-        <form class="field" onsubmit="return false;">
-          <input type="email" placeholder="votre@email.com" aria-label="email">
+        <form class="field" data-hv-form="newsletter" action="/api/newsletter" method="post" novalidate>
+          <input type="email" name="email" placeholder="votre@email.com" aria-label="Votre adresse e-mail" autocomplete="email" required maxlength="254">
+          <span class="hv-piege" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" aria-label="Ne pas remplir"></span>
           <button type="submit">S'abonner →</button>
         </form>
+        <p class="hv-statut hv-statut--d" role="status" aria-live="polite"></p>
         <div class="footer__addr"><b>Email</b>contact@hiving.me<b style="margin-top:10px">Adresse</b>4 Rue Mozart · 92110 Clichy</div>
       </div>
     </div>
@@ -473,8 +516,8 @@
   </div>
 </footer>
 
-<script src="image-slot.js?v=20260724"></script>
-<script src="hiving.js?v=20261029"></script>
+<script src="image-slot.js?v=20261109lot"></script>
+<script src="hiving.js?v=20261109lot"></script>
 
 </body>
 </html>
