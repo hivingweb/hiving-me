@@ -29,6 +29,21 @@
       "permanent": true
     },
     {
+      "source": "/media",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/media/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/media/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/talents/jimmy-gressier",
       "destination": "/talents/",
       "permanent": true
