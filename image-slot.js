@@ -217,10 +217,10 @@
     // author-declared slot height is unaffected. The gap is padding, not a
     // top offset, so the hover target stays contiguous with the frame.
     '.ctl{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:8px;' +
-    '  display:flex;gap:6px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:2;' +
+    '  display:flex;gap:6px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s,visibility .12s;z-index:2;' +
     '  white-space:nowrap}' +
     ':host([data-filled][data-editable]:hover) .ctl,:host([data-reframe]) .ctl' +
-    '  {opacity:1;pointer-events:auto}' +
+    '  {opacity:1;visibility:visible;pointer-events:auto}' +
     '.ctl button{appearance:none;border:0;border-radius:6px;padding:5px 10px;cursor:pointer;' +
     '  background:rgba(0,0,0,.65);color:#fff;font:11px/1 system-ui,-apple-system,sans-serif;' +
     '  backdrop-filter:blur(6px)}' +

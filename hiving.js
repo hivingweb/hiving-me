@@ -833,7 +833,8 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
 
   // keep the muted film rolling (autoplay is allowed muted, but nudge it)
   const video = se.querySelector('.se__video');
-  const nudgePlay = () => { if(video && video.paused){ video.play().catch(()=>{}); } };
+  // (sauf si le visiteur l'a mis en pause avec le bouton : on respecte son choix)
+  const nudgePlay = () => { if(video && video.paused && video.dataset.userPaused !== '1'){ video.play().catch(()=>{}); } };
   if(video){ video.addEventListener('canplay', nudgePlay); nudgePlay(); }
 
   function onWheel(e){
@@ -878,6 +879,41 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
 })();
 
 /* ============================================================
+   FILM DU HERO — bouton pause / lecture (WCAG 2.2.2)
+   Bouton natif (clavier : Tab, Entrée, Espace). Si le visiteur
+   demande moins d'animations (prefers-reduced-motion), le film
+   reste en pause au départ ; il peut le lancer avec le bouton.
+   ============================================================ */
+(function heroVideoToggle(){
+  'use strict';
+  const btn = document.querySelector('[data-se-toggle]');
+  const video = document.querySelector('.se__video');
+  if(!btn || !video) return;
+  const LABEL_PAUSE = 'Mettre la vidéo en pause';
+  const LABEL_PLAY = 'Lire la vidéo';
+
+  function render(){
+    const paused = video.paused;
+    btn.classList.toggle('is-paused', paused);
+    btn.setAttribute('aria-label', paused ? LABEL_PLAY : LABEL_PAUSE);
+  }
+  // autoplay retiré : un rechargement de la source (reprise sur erreur) ne relance pas le film
+  function pause(){ video.dataset.userPaused = '1'; video.removeAttribute('autoplay'); video.pause(); render(); }
+  function play(){
+    delete video.dataset.userPaused;
+    const p = video.play(); if(p && p.catch) p.catch(()=>{});
+    render();
+  }
+
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) pause();
+  btn.addEventListener('click', e => { e.stopPropagation(); if(video.paused) play(); else pause(); });
+  video.addEventListener('play', render);
+  video.addEventListener('pause', render);
+  btn.hidden = false;
+  render();
+})();
+
+/* ============================================================
    ROBUST VIDEOS — lazy-load + auto-retry
    Loads each film only when it scrolls into view (and one at a
    time), instead of firing 4 large requests at once and saturating
@@ -887,7 +923,7 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
   'use strict';
   const vids = [...document.querySelectorAll('.case__video, .se__video')];
   if(!vids.length) return;
-  const play = v => { const p = v.play(); if(p && p.catch) p.catch(()=>{}); };
+  const play = v => { if(v.dataset.userPaused === '1') return; const p = v.play(); if(p && p.catch) p.catch(()=>{}); };
 
   // On a failed/aborted load, reload after a short backoff. The browser
   // won't re-fetch a URL that already errored, so we cache-bust each retry.
