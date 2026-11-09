@@ -6,6 +6,10 @@ Ne jamais casser une de ces adresses sans redirection dans `vercel.json` (voir C
 - https://hiving.me/agence-influence-paris/
 - https://hiving.me/agence-influence-lifestyle/
 - https://hiving.me/agence-influence-sport/
+- https://hiving.me/agence-tiktok/
+- https://hiving.me/agence-ugc/
+- https://hiving.me/agence-influence-beaute/
+- https://hiving.me/agence-influence-mode/
 - https://hiving.me/talents/
 - https://hiving.me/cases.html
 - https://hiving.me/talents/shana-b/
