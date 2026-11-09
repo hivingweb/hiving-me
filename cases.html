@@ -8,6 +8,7 @@
 <meta name="description" content="Campagnes d'influence signées Hiving, agence à Paris : Rabanne, adidas, Dolce &amp; Gabbana, La Roche-Posay, Levi's… Casting, production et diffusion.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0E3B3C">
+<link rel="manifest" href="/manifest.webmanifest">
 <link rel="canonical" href="https://hiving.me/cases.html">
 
 <meta property="og:type" content="website">
@@ -21,9 +22,12 @@
 <meta name="twitter:image" content="https://hiving.me/media/hiving-rooftop.jpg">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-<link rel="stylesheet" href="hiving.css?v=20261109">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=Bodoni+Moda:ital,opsz,wght@1,6..96,400;1,6..96,500;1,6..96,600;1,6..96,700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;family=Caveat:wght@500;600;700&amp;display=swap">
+<link rel="stylesheet" href="hiving.css?v=20261109lot">
 <style>
   .ac-top{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
     padding:16px clamp(20px,5vw,64px); background:color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
@@ -49,8 +53,32 @@
   .ac-more{ text-align:center; font-family:var(--serif); font-style:italic; font-size:clamp(20px,2.4vw,32px); color:var(--ink-dim); padding:clamp(20px,4vh,52px) 20px clamp(28px,5vh,64px); }
   .ac-foot{ text-align:center; padding:0 20px clamp(60px,10vh,120px); }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "CollectionPage",
+   "@id": "https://hiving.me/cases.html",
+   "url": "https://hiving.me/cases.html",
+   "name": "Campagnes d'influence · Hiving",
+   "inLanguage": "fr-FR",
+   "isPartOf": { "@id": "https://hiving.me/#website" },
+   "publisher": { "@id": "https://hiving.me/#organization" }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://hiving.me/" },
+    { "@type": "ListItem", "position": 2, "name": "Cases", "item": "https://hiving.me/cases.html" }
+   ]
+  }
+ ]
+}
+</script>
 </head>
 <body class="temp-equilibre motion-vivant">
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 <div class="grain"></div>
 
 <div class="ac-top">
@@ -58,6 +86,7 @@
   <a href="index.html#contact" class="nav__cta">Travaillons ensemble <span>→</span></a>
 </div>
 
+<main id="contenu" tabindex="-1">
 <header class="ac-head">
   <div class="eyebrow"><span class="rule"></span> Cases · campagnes d'influence marquantes</div>
   <h1>Quelques <span class="ital">campagnes.</span></h1>
@@ -213,11 +242,13 @@
 
 <p class="ac-more">…et bien d'autres.</p>
 
+</main>
+
 <div class="ac-foot">
   <a href="index.html#contact" class="btn btn--dark">Travailler avec Hiving ↗</a>
 </div>
 
-<script src="hiving.js?v=20260724"></script>
+<script src="hiving.js?v=20261109lot"></script>
 <script>
 (function(){
   var vids = [].slice.call(document.querySelectorAll('.acase__video'));
