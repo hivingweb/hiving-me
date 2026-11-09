@@ -2,6 +2,7 @@
 
 Le plus récent en haut : date, qui, quoi.
 
+- 2026-11-09 · Maxime (avec Claude) · Équipe d'agents Claude Code : 6 sous-agents dans .claude/agents/ (seo, sea, social-media, contenu, dev, relecteur), guide docs/equipe-agents.md, section 9 ajoutée au CLAUDE.md. Branche modif/equipe-agents, en attente de validation.
 - 2026-11-09 · Maxime (avec Claude) · SEO : titres (moins de 60 caractères) et descriptions (moins de 160) raccourcis sur les 20 pages du sitemap, og:title et JSON-LD alignés quand ils reprenaient le titre ; og:* ajoutés aux mentions légales et à la confidentialité (texte inchangé) ; enquete/ en noindex ; redirection permanente /media/ vers l'accueil (les images de /media/* restent servies). Branche modif/seo-hiving-me, en attente de validation.
 - 2026-11-09 · Maxime (avec Claude) · Search Console : anciens fichiers de validation google9795e5b7f4d01f01.html (compte hello@sense.contact) et google1e5bfde55efa80d9.html supprimés ; seul maximebolleaupro@gmail.com reste propriétaire (fichier googlea3c44b681c8cc04f.html, à garder).
 - 2026-11-09 · Maxime (avec Claude) · CLAUDE.md : règle permanente, les anciens stagiaires et collaborateurs partis n'ont aucun accès ; toute trace trouvée est retirée.
