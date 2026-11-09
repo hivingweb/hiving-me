@@ -37,6 +37,16 @@
       "source": "/talents/jimmy-gressier/",
       "destination": "/talents/",
       "permanent": true
+    },
+    {
+      "source": "/talents/Shana",
+      "destination": "https://xy8wkkceax6fodpg.public.blob.vercel-storage.com/hiving-me/talents/Shana",
+      "permanent": false
+    },
+    {
+      "source": "/:file(.*\\.(?:mp4|glb))",
+      "destination": "https://xy8wkkceax6fodpg.public.blob.vercel-storage.com/hiving-me/:file",
+      "permanent": false
     }
   ],
   "headers": [
