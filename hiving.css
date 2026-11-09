@@ -365,7 +365,7 @@ body[data-eco="creme"]    .eco{ --eco-bg:#e7e0cf; --eco-fg:#15140f; --eco-fg-dim
 .studios__head .lead{ margin-top:24px; max-width:560px; color:var(--ink-dim); font-size:clamp(15px,1.3vw,18px); }
 .studios__head .lead b{ color:var(--ink); font-weight:600; }
 .studios__scribble{ font-family:var(--script); font-weight:600; font-size:clamp(18px,1.8vw,26px); color:var(--forest); display:inline-flex; align-items:center; gap:8px; }
-.plateaux{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(18px,2vw,40px); margin-top:50px; }
+.plateaux{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(18px,2vw,40px); margin-top:50px; }
 @media (max-width:860px){ .plateaux{ grid-template-columns:1fr; max-width:460px; margin-left:auto; margin-right:auto; } }
 .plateau{ position:relative; }
 /* polaroid */

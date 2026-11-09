@@ -1,6 +1,6 @@
 # Hiving
 
-> Hiving est une agence d'influence et maison de créateurs basée à Clichy (Grand Paris, France). Elle développe des talents en exclusivité dans trois univers culturels (lifestyle, sport, food) et produit les campagnes de bout en bout : stratégie, casting, production dans 190 m² de studios, diffusion multi-plateformes et reporting. Les créateurs de la maison cumulent plus de 500 millions de vues par mois sur TikTok, Instagram et YouTube.
+> Hiving est une agence d'influence et maison de créateurs basée à Clichy (Grand Paris, France). Elle développe des talents en exclusivité dans trois univers culturels (lifestyle, sport, food) et produit les campagnes de bout en bout : stratégie, casting, production dans 145 m² de studios, diffusion multi-plateformes et reporting. Les créateurs de la maison cumulent plus de 500 millions de vues par mois sur TikTok, Instagram et YouTube.
 
 Ce qui différencie Hiving d'une agence d'influence classique : les créateurs sont en exclusivité (pas de catalogue partagé), la production est intégrée (plateaux de tournage en propre à Clichy), et la verticale food est portée par une entité dédiée, Hiving Food, première agence d'influence 100% food en France.
 
@@ -20,7 +20,7 @@ Talents notables : Gaël Monfils (tennis, 1,6M d'abonnés), Pablo Brimeux, Aimie
 ## Écosystème
 
 - [Hiving Food](https://hivingfood.fr) : la verticale food, 14 créateurs culinaires en exclusivité
-- [Hiving Studio](https://hivingstudio.com) : location des 3 plateaux de tournage à Clichy (dès 450 EUR/jour)
+- [Hiving Studio](https://hivingstudio.fr) : location de 2 plateaux de tournage au 4 rue Mozart, 92110 Clichy, Studio Pro (80 m²) et Studio Famille (65 m²), dès 850 EUR HT / jour
 - [SËNSE](https://sense.contact) : la maison créative digitale du groupe (production, FOOH, social media)
 
 ## Contact
