@@ -424,6 +424,24 @@ body[data-eco="creme"]    .eco{ --eco-bg:#e7e0cf; --eco-fg:#15140f; --eco-fg-dim
 .cta__sub{ max-width:560px; margin:28px auto 38px; color:var(--ink-dim); font-family:var(--serif); font-style:italic; font-size:clamp(17px,1.6vw,23px); line-height:1.5; }
 .cta__actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
 .cta__scribble{ display:block; margin:22px auto 0; width:90px; color:var(--forest); }
+/* formulaire de contact court (sous le bouton e-mail) */
+.cta__form{ max-width:640px; margin:48px auto 0; text-align:left; position:relative; }
+.cta__form-titre{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim); text-align:center; margin-bottom:22px; }
+.cta__form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:22px; }
+.cta__form-plein{ grid-column:1 / -1; }
+.cta__form-champ label{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); margin-bottom:7px; }
+.cta__form-champ input, .cta__form-champ textarea{ width:100%; box-sizing:border-box; background:var(--paper); color:var(--ink); border:1px solid var(--line); border-radius:14px; padding:13px 16px; font-family:var(--body); font-size:15px; transition:border-color .3s; }
+.cta__form-champ textarea{ resize:vertical; min-height:110px; }
+.cta__form-champ input:focus, .cta__form-champ textarea:focus{ outline:2px solid var(--forest); outline-offset:1px; border-color:var(--forest); }
+.cta__form-champ [aria-invalid="true"]{ border-color:var(--ink); border-width:2px; }
+.cta__form .btn{ border:none; cursor:pointer; }
+.cta__form .btn[disabled], .footer__news button[disabled]{ opacity:.6; cursor:wait; }
+@media (max-width:640px){ .cta__form-grid{ grid-template-columns:1fr; } }
+.hv-piege{ position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden; }
+.hv-statut{ margin-top:14px; font-family:var(--body); font-size:14px; line-height:1.5; color:var(--ink); }
+.hv-statut:empty{ display:none; }
+.hv-statut a{ text-decoration:underline; text-underline-offset:3px; }
+.hv-statut--d{ color:var(--on-d); max-width:340px; }
 
 /* ============================================================ FOOTER */
 .footer{ background:var(--ink); color:var(--on-d); padding:clamp(50px,8vh,90px) 0 38px; }

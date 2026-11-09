@@ -34,7 +34,7 @@
 <link rel="apple-touch-icon" href="favicon-96.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="stylesheet" href="hiving.css?v=20260620">
+<link rel="stylesheet" href="hiving.css?v=20261109form">
 
 <script type="application/ld+json">
 {
@@ -448,6 +448,30 @@
     <div class="cta__actions">
       <a href="mailto:contact@hiving.me" class="btn btn--dark">contact@hiving.me ↗</a>
     </div>
+    <form class="cta__form" data-hv-form="contact" action="/api/contact" method="post" novalidate aria-labelledby="cta-form-titre">
+      <p class="cta__form-titre" id="cta-form-titre">Ou laissez-nous un message</p>
+      <div class="cta__form-grid">
+        <div class="cta__form-champ">
+          <label for="cf-name">Nom *</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120">
+        </div>
+        <div class="cta__form-champ">
+          <label for="cf-email">E-mail *</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="254">
+        </div>
+        <div class="cta__form-champ cta__form-plein">
+          <label for="cf-company">Société</label>
+          <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="160">
+        </div>
+        <div class="cta__form-champ cta__form-plein">
+          <label for="cf-message">Message *</label>
+          <textarea id="cf-message" name="message" rows="4" required maxlength="5000"></textarea>
+        </div>
+      </div>
+      <div class="hv-piege" aria-hidden="true"><label for="cf-website">Ne pas remplir</label><input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <button type="submit" class="btn btn--dark">Envoyer le message →</button>
+      <p class="hv-statut" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -472,10 +496,12 @@
       <div class="footer__news">
         <h4>La newsletter</h4>
         <p>Une fois par mois : les coulisses de la maison, les nouveaux talents et les insights culture.</p>
-        <form class="field" onsubmit="return false;">
-          <input type="email" placeholder="votre@email.com" aria-label="email">
+        <form class="field" data-hv-form="newsletter" action="/api/newsletter" method="post" novalidate>
+          <input type="email" name="email" placeholder="votre@email.com" aria-label="Votre adresse e-mail" autocomplete="email" required maxlength="254">
+          <span class="hv-piege" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" aria-label="Ne pas remplir"></span>
           <button type="submit">S'abonner →</button>
         </form>
+        <p class="hv-statut hv-statut--d" role="status" aria-live="polite"></p>
         <div class="footer__addr"><b>Email</b>contact@hiving.me<b style="margin-top:10px">Adresse</b>4 Rue Mozart · 92110 Clichy</div>
       </div>
     </div>
@@ -487,7 +513,7 @@
 </footer>
 
 <script src="image-slot.js?v=20260724"></script>
-<script src="hiving.js?v=20261029"></script>
+<script src="hiving.js?v=20261109form"></script>
 
 </body>
 </html>

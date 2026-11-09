@@ -1153,3 +1153,60 @@ window.HIVING_LOWP = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.dev
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   window.addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
 })();
+
+/* ============================================================
+   FORMULAIRES (contact, newsletter) → fonctions Vercel /api/*
+   Envoi en JSON, message lu par les lecteurs d'écran (aria-live),
+   bouton bloqué pendant l'envoi. Aucun traceur.
+   ============================================================ */
+(function(){
+  const CONTACT = 'contact@hiving.me';
+  const INDISPO = 'Envoi momentanément indisponible, écrivez-nous à <a href="mailto:' + CONTACT + '">' + CONTACT + '</a>.';
+  const MERCI = {
+    contact: 'Merci, votre message est bien parti. Nous revenons vers vous sous 24h.',
+    newsletter: 'Merci, votre inscription est enregistrée.',
+  };
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  document.querySelectorAll('form[data-hv-form]').forEach(form => {
+    const type = form.getAttribute('data-hv-form');
+    const statut = form.querySelector('.hv-statut') ||
+      (form.nextElementSibling && form.nextElementSibling.classList.contains('hv-statut') ? form.nextElementSibling : null);
+    const bouton = form.querySelector('[type="submit"]');
+    const dire = (html, estHtml) => { if (!statut) return; if (estHtml) statut.innerHTML = html; else statut.textContent = html; };
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (bouton.disabled) return;
+      const data = {};
+      new FormData(form).forEach((v, k) => { data[k] = String(v).trim(); });
+      form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+
+      // vérification avant envoi (refaite côté serveur)
+      const manquant = Array.from(form.querySelectorAll('[required]')).find(el => !el.value.trim());
+      if (manquant) { manquant.setAttribute('aria-invalid', 'true'); manquant.focus(); dire('Merci de remplir les champs marqués d’un astérisque.'); return; }
+      if (!EMAIL_RE.test(data.email || '')) {
+        const champ = form.querySelector('[name="email"]');
+        champ.setAttribute('aria-invalid', 'true'); champ.focus(); dire('Adresse e-mail invalide.'); return;
+      }
+      if (type === 'newsletter') data.source = data.source || 'footer';
+
+      const texteBouton = bouton.textContent;
+      bouton.disabled = true; bouton.setAttribute('aria-disabled', 'true'); bouton.textContent = 'Envoi…';
+      dire('Envoi en cours…');
+
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+        .then(r => r.json().catch(() => ({})).then(d => ({ ok: r.ok, status: r.status, data: d })), () => ({ ok: false, status: 0, data: {} }))
+        .then(res => {
+          bouton.disabled = false; bouton.removeAttribute('aria-disabled'); bouton.textContent = texteBouton;
+          if (res.ok) { form.reset(); dire(MERCI[type] || 'Merci !'); return; }
+          if (res.status === 400 && res.data.error) dire(res.data.error);
+          else dire(INDISPO, true);
+        });
+    });
+  });
+})();
